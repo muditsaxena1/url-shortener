@@ -1,10 +1,12 @@
-#URL Shortener Service
+# URL Shortener Service
 This project is a simple URL shortener service built with Go. It provides an API to shorten URLs, retrieve the original URLs, and track metrics of the top shortened domains.
-##Features
-Shorten URL: Accepts a URL and returns a shortened version using Base62 encoding.
-Redirect: Redirects the shortened URL to the original URL.
-Metrics API: Returns the top 3 most shortened domain names.
-Project Structure
+
+## Features
+__Shorten URL__: Accepts a URL and returns a shortened version using Base62 encoding.
+__Redirect__: Redirects the shortened URL to the original URL.
+__Metrics API__: Returns the top 3 most shortened domain names.
+
+## Project Structure
 The project is organized as follows:
 ```
 url-shortener/
@@ -21,56 +23,92 @@ url-shortener/
 │
 └── go.mod                  # Go module file
 ```
-##Prerequisites
-Go 1.20 or higher
+## Prerequisites
+Go 1.23 or higher
 Docker (for containerization)
-Getting Started
-1. Clone the repository
 
+# Getting Started
+## 1. Clone the repository
+```
 git clone https://github.com/yourusername/url-shortener.git
 cd url-shortener
-2. Build and Run Locally
+```
+## 2. Build and Run Locally
 You can use the provided Makefile to manage the project.
-Format, Vendor, and Tidy Go Modules
-
+### Format, Vendor, and Tidy Go Modules
+```
 make tidy
-Run the Application
-
+```
+### Run the Application
+```
 make run
-Run Tests
-
+```
+### Run Tests
+```
 make test
-3. Build and Run with Docker
-Build the Docker Image
-
+```
+## 3. Build and Run with Docker
+### Build the Docker Image
+```
 make docker-build
-Run the Docker Container
-
+```
+### Run the Docker Container
+```
 make docker-run
-API Usage
-Shorten a URL
-
+```
+# API Usage
+## Shorten a URL
+```
 curl --location 'localhost:8080/shorten' \
 --header 'Content-Type: application/json' \
 --data '{
     "url": "https://www.google.com/search?q=rich+dad+poor+dad"
 }'
-Redirect to Original URL
-
+```
+```
+{
+    "shortened_url": "localhost:8080/r/AnXmfMMA"
+}
+```
+## Redirect to Original URL
+```
 curl --location 'localhost:8080/r/AnXkH44A'
-Get Top 3 Shortened Domains
-
+```
+## Get Top 3 Shortened Domains
+```
 curl --location 'localhost:8080/metrics/top-domains'
-Future Improvements
-Database Integration:
-Use a database like PostgreSQL or MongoDB for persistent storage. This will allow the service to retain shortened URLs and metrics across restarts.
+```
+```
+{
+    "top_domains": [
+        {
+            "DomainURL": "www.google.com",
+            "VisitCount": 23
+        },
+        {
+            "DomainURL": "www.facebook.com",
+            "VisitCount": 10
+        },
+        {
+            "DomainURL": "www.leetcode.com",
+            "VisitCount": 8
+        }
+    ]
+}
+```
+# Future Improvements
+## Database Integration:
+Use a database like PostgreSQL or MySQL for persistent storage. This will allow the service to retain shortened URLs and metrics across restarts.
 Include a docker-compose.yml file to easily set up the database along with the service.
-Improved Logging:
+## Improved Logging:
 Implement logging to a file for better traceability and debugging.
 Use structured logging libraries like logrus or zap.
-Authentication:
+## Authentication:
 Add authentication (e.g., API keys, OAuth) for URL shortening to restrict usage.
-Enhanced Comments:
+## Enhanced Comments:
 Improve inline documentation and comments to make the codebase more understandable for new contributors.
-License
+## Enchanced Unit Tests
+Improve the test coverage and add more test cases for edge scenarios and error handling. 
+
+# License
 This project is licensed under the MIT License.
