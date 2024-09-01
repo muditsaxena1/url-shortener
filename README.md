@@ -2,16 +2,18 @@
 This project is a simple URL shortener service built with Go. It provides an API to shorten URLs, retrieve the original URLs, and track metrics of the top shortened domains.
 
 ## Features
-__Shorten URL__: Accepts a URL and returns a shortened version using Base62 encoding.
-__Redirect__: Redirects the shortened URL to the original URL.
-__Metrics API__: Returns the top 3 most shortened domain names.
+* __Shorten URL__: Accepts a URL and returns a shortened version using Base62 encoding.
+
+* __Redirect__: Redirects the shortened URL to the original URL.
+
+* __Metrics API__: Returns the top 3 most shortened domain names.
 
 ## Project Structure
 The project is organized as follows:
 ```
 url-shortener/
 │
-├── cmd/
+├── cmd/server/
 │   └── main.go             # Entry point of the application
 │
 ├── internal/
@@ -97,17 +99,17 @@ curl --location 'localhost:8080/metrics/top-domains'
 }
 ```
 # Future Improvements
-## Database Integration:
+### 1. Database Integration:
 Use a database like PostgreSQL or MySQL for persistent storage. This will allow the service to retain shortened URLs and metrics across restarts.
 Include a docker-compose.yml file to easily set up the database along with the service.
-## Improved Logging:
+### 2. Improved Logging:
 Implement logging to a file for better traceability and debugging.
 Use structured logging libraries like logrus or zap.
-## Authentication:
+### 3. Authentication:
 Add authentication (e.g., API keys, OAuth) for URL shortening to restrict usage.
-## Enhanced Comments:
+### 4. Enhanced Comments:
 Improve inline documentation and comments to make the codebase more understandable for new contributors.
-## Enchanced Unit Tests
+### 5. Enchanced Unit Tests
 Improve the test coverage and add more test cases for edge scenarios and error handling. 
 
 # License
