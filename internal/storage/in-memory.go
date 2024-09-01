@@ -16,7 +16,7 @@ func NewInMemoryStorage() CacheStorage {
 	return &InMemoryStorage{urlMappings: make(map[string]string)}
 }
 
-func (s *InMemoryStorage) SaveURLMapping(shortCode string, originalURL string) *errors.CustomError {
+func (s *InMemoryStorage) SaveURLMapping(shortCode string, originalURL string) *errors.Error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -24,13 +24,13 @@ func (s *InMemoryStorage) SaveURLMapping(shortCode string, originalURL string) *
 	return nil
 }
 
-func (s *InMemoryStorage) GetOriginalURL(shortCode string) (string, *errors.CustomError) {
+func (s *InMemoryStorage) GetOriginalURL(shortCode string) (string, *errors.Error) {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
 
 	url, exists := s.urlMappings[shortCode]
 	if !exists {
-		return "", errors.NewCustomError(http.StatusNotFound, "URL not found")
+		return "", errors.New(http.StatusNotFound, "URL not found")
 	}
 	return url, nil
 }

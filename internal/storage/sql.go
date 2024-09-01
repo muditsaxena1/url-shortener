@@ -21,7 +21,7 @@ func NewMySQLStorage() DatabaseStorage {
 	}
 }
 
-func (s *MySQLStorage) SaveURLMapping(shortCode string, originalURL string) *errors.CustomError {
+func (s *MySQLStorage) SaveURLMapping(shortCode string, originalURL string) *errors.Error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 
@@ -29,18 +29,18 @@ func (s *MySQLStorage) SaveURLMapping(shortCode string, originalURL string) *err
 	return nil
 }
 
-func (s *MySQLStorage) GetOriginalURL(shortCode string) (string, *errors.CustomError) {
+func (s *MySQLStorage) GetOriginalURL(shortCode string) (string, *errors.Error) {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
 
 	url, exists := s.urlMappings[shortCode]
 	if !exists {
-		return "", errors.NewCustomError(http.StatusNotFound, "URL not found")
+		return "", errors.New(http.StatusNotFound, "URL not found")
 	}
 	return url, nil
 }
 
-func (s *MySQLStorage) GetShortCode(originalURL string) (string, *errors.CustomError) {
+func (s *MySQLStorage) GetShortCode(originalURL string) (string, *errors.Error) {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
 
@@ -50,10 +50,10 @@ func (s *MySQLStorage) GetShortCode(originalURL string) (string, *errors.CustomE
 			return k, nil
 		}
 	}
-	return "", errors.NewCustomError(http.StatusNotFound, "original url not found")
+	return "", errors.New(http.StatusNotFound, "original url not found")
 }
 
-func (s *MySQLStorage) IncrementDomainCount(domain string) *errors.CustomError {
+func (s *MySQLStorage) IncrementDomainCount(domain string) *errors.Error {
 	s.mu.Lock()
 	defer s.mu.Unlock()
 

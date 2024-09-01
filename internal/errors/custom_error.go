@@ -2,18 +2,18 @@ package errors
 
 import "fmt"
 
-type CustomError struct {
+type Error struct {
 	StatusCode int
 	Message    string
 }
 
-func NewCustomError(statusCode int, message string) *CustomError {
-	return &CustomError{
+func New(statusCode int, message string) *Error {
+	return &Error{
 		StatusCode: statusCode,
 		Message:    message,
 	}
 }
 
-func (e *CustomError) Error() string {
+func (e *Error) Error() string {
 	return fmt.Sprintf("status %d: %s", e.StatusCode, e.Message)
 }
