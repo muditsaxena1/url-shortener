@@ -2,7 +2,7 @@
 This project is a simple URL shortener service built with Go. It provides an API to shorten URLs, retrieve the original URLs, and track metrics of the top shortened domains.
 
 ## Features
-* __Shorten URL__: Accepts a URL and returns a shortened version using Base62 encoding.
+* __Shorten URL__: Accepts a URL and returns a shortened version using Base64 encoding and twitter's snowflake approach to generate unique ID.
 
 * __Redirect__: Redirects the shortened URL to the original URL.
 
