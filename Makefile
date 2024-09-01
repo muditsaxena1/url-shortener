@@ -9,9 +9,11 @@ help:
 	@echo "  make <target>"
 	@echo ""
 	@echo "Targets:"
-	@echo "  tidy      Format the code, vendor, and tidy the Go modules"
-	@echo "  run       Run the Go application locally without Docker."
-	@echo "  test      Runs all the tests in the sub folders."
+	@echo "  tidy          Format the code, vendor, and tidy the Go modules"
+	@echo "  run           Run the Go application locally without Docker."
+	@echo "  test          Runs all the tests in the sub folders."
+	@echo "  docker-build  Builds the docker image"
+	@echo "  docker-run    Runs the docker container"
 
 tidy:
 	go fmt ./...
@@ -26,7 +28,7 @@ test:
 
 docker-build:
 	@echo "Building Docker Image..."
-	docker build -t url-shortener .
+	docker build --rm -t url-shortener .
 
 docker-run:
 	@echo "Building Docker Container..."
