@@ -1,6 +1,7 @@
 package storage
 
 import (
+	"fmt"
 	"net/http"
 	"sync"
 
@@ -41,6 +42,7 @@ func (s *MySQLStorage) GetShortURL(originalURL string) (string, *errors.CustomEr
 
 	for k, v := range s.urlMappings {
 		if v == originalURL {
+			fmt.Println("Short url already exists for", originalURL)
 			return k, nil
 		}
 	}
