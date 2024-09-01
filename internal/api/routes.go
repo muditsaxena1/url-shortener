@@ -12,4 +12,5 @@ func SetupRoutes(router *gin.Engine, shortenerService *services.ShortenerService
 
 	router.POST("/shorten", h.ShortenURL)
 	router.GET("/r/:shortCode", h.Redirect)
+	router.GET("/metrics/top-domains", h.GetTopDomains)
 }

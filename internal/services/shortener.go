@@ -2,7 +2,10 @@ package services
 
 import (
 	"fmt"
+	"os"
+	"strings"
 
+	"github.com/muditsaxena1/url-shortener/internal/models"
 	"github.com/muditsaxena1/url-shortener/internal/storage"
 	"github.com/muditsaxena1/url-shortener/internal/utils"
 )
@@ -31,7 +34,11 @@ func (s *ShortenerService) ShortenURL(originalURL string) (string, error) {
 		return "", err
 	}
 
-	return "http://localhost:8080/r/" + shortCode, nil
+	// Extract domain and increment domain count
+	domain := strings.Split(originalURL, "/")[2]
+	s.db.IncrementDomainCount(domain)
+
+	return os.Getenv("DOMAIN_NAME") + "/r/" + shortCode, nil
 }
 
 func (s *ShortenerService) ResolveURL(shortCode string) (string, error) {
@@ -46,4 +53,34 @@ func (s *ShortenerService) ResolveURL(shortCode string) (string, error) {
 		fmt.Println("Error while saving data in cache", err.Message)
 	}
 	return originalURL, nil
+}
+
+func (s *ShortenerService) GetTopDomains() []models.Domain {
+	domainCounts := s.db.GetDomainCounts()
+
+	var max, secondMax, thirdMax models.Domain
+
+	for k, v := range domainCounts {
+		if v >= max.VisitCount {
+			thirdMax = secondMax
+			secondMax = max
+			max = models.Domain{
+				DomainURL:  k,
+				VisitCount: v,
+			}
+		} else if v >= secondMax.VisitCount {
+			thirdMax = secondMax
+			secondMax = models.Domain{
+				DomainURL:  k,
+				VisitCount: v,
+			}
+		} else if v >= thirdMax.VisitCount {
+			thirdMax = models.Domain{
+				DomainURL:  k,
+				VisitCount: v,
+			}
+		}
+	}
+
+	return []models.Domain{max, secondMax, thirdMax}
 }
