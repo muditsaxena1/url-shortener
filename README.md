@@ -34,7 +34,7 @@ Docker (for containerization)
 # Getting Started
 ## 1. Clone the repository
 ```
-git clone https://github.com/yourusername/url-shortener.git
+git clone https://github.com/muditsaxena1/url-shortener.git
 cd url-shortener
 ```
 ## 2. Build and Run Locally
