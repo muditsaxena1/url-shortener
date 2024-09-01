@@ -13,21 +13,23 @@ import (
 type ShortenerService struct {
 	cache storage.CacheStorage
 	db    storage.DatabaseStorage
+	sf    *utils.Snowflake
 }
 
-func NewShortenerService(cache storage.CacheStorage, db storage.DatabaseStorage) *ShortenerService {
+func NewShortenerService(cache storage.CacheStorage, db storage.DatabaseStorage, sf *utils.Snowflake) *ShortenerService {
 	return &ShortenerService{
 		cache: cache,
 		db:    db,
+		sf:    sf,
 	}
 }
 
 func (s *ShortenerService) ShortenURL(originalURL string) (string, error) {
 	if shortCode, err := s.db.GetShortCode(originalURL); err == nil {
-		return "http://localhost:8080/r/" + shortCode, nil
+		return os.Getenv("DOMAIN_NAME") + "/r/" + shortCode, nil
 	}
 
-	shortCode := utils.GenerateShortCode(originalURL)
+	shortCode := s.sf.GenerateShortCode()
 
 	// Save the URL mapping if it doesn't already exist
 	if err := s.db.SaveURLMapping(shortCode, originalURL); err != nil {
