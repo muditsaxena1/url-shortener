@@ -10,7 +10,7 @@ func SetupRoutes(router *gin.Engine, shortenerService *services.ShortenerService
 		ShortenerService: shortenerService,
 	}
 
-	router.POST("/shorten", h.ShortenURL)
-	router.GET("/r/:shortCode", h.Redirect)
-	router.GET("/metrics/top-domains", h.GetTopDomains)
+	router.POST("/shorten", h.shortenURL)
+	router.GET("/r/:shortCode", h.redirect)
+	router.GET("/metrics/top-domains", h.getTopDomains)
 }

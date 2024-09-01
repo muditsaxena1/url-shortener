@@ -12,7 +12,7 @@ type Handlers struct {
 	ShortenerService *services.ShortenerService
 }
 
-func (h *Handlers) ShortenURL(c *gin.Context) {
+func (h *Handlers) shortenURL(c *gin.Context) {
 	var request models.ShortenRequest
 	if err := c.ShouldBindJSON(&request); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
@@ -28,7 +28,7 @@ func (h *Handlers) ShortenURL(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"shortened_url": shortenedURL})
 }
 
-func (h *Handlers) Redirect(c *gin.Context) {
+func (h *Handlers) redirect(c *gin.Context) {
 	shortCode := c.Param("shortCode")
 	originalURL, err := h.ShortenerService.ResolveURL(shortCode)
 	if err != nil {
@@ -39,7 +39,7 @@ func (h *Handlers) Redirect(c *gin.Context) {
 	c.Redirect(http.StatusMovedPermanently, originalURL)
 }
 
-func (h *Handlers) GetTopDomains(c *gin.Context) {
+func (h *Handlers) getTopDomains(c *gin.Context) {
 	topDomains := h.ShortenerService.GetTopDomains()
 	c.JSON(http.StatusOK, gin.H{"top_domains": topDomains})
 }
