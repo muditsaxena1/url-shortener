@@ -38,3 +38,8 @@ func (h *Handlers) Redirect(c *gin.Context) {
 
 	c.Redirect(http.StatusMovedPermanently, originalURL)
 }
+
+func (h *Handlers) GetTopDomains(c *gin.Context) {
+	topDomains := h.ShortenerService.GetTopDomains()
+	c.JSON(http.StatusOK, gin.H{"top_domains": topDomains})
+}
