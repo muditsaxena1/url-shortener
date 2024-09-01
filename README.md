@@ -16,6 +16,8 @@ url-shortener/
 │
 ├── internal/
 │   ├── api/                # Handlers, routes, and middlewares
+│   ├── config/             # Loading configs like port number
+│   ├── errors/             # Custom error logic
 │   ├── models/             # Data structures and validation logic
 │   ├── storage/            # Storage interface and in-memory implementation
 │   ├── services/           # URL shortening and metrics logic
@@ -95,6 +97,18 @@ curl --location 'localhost:8080/metrics/top-domains'
         }
     ]
 }
+```
+# Unique ID Generatation
+Used twitter's snowflake approach to generate unique ID of 48 bits (41 bits for timestamp, 4 bits for instance ID and 3 bits for sequence ID which gets reset to 0 after end of millisecond).
+Which is converted to base64 encoded string of 8 characters.
+Total number of unique short URLs that can be generated with this.
+```
+64^8 = ~281 trillion
+```
+As timestamp is using 41 bits and epoch time is Jan 1, 2024. This approach is good for 69 years from the epoch time.
+```
+2^41 Millisecond
+2^41/1000/60/60/24/365 = ~69.7 years
 ```
 # Future Improvements
 ## Database Integration:
