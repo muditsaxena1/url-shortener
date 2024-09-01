@@ -10,5 +10,5 @@ type CacheStorage interface {
 type DatabaseStorage interface {
 	SaveURLMapping(shortCode string, originalURL string) *errors.CustomError
 	GetOriginalURL(shortCode string) (string, *errors.CustomError)
-	GetShortURL(originalURL string) (string, *errors.CustomError)
+	GetShortCode(originalURL string) (string, *errors.CustomError)
 }

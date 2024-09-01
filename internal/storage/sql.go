@@ -1,6 +1,7 @@
 package storage
 
 import (
+	"fmt"
 	"net/http"
 	"sync"
 
@@ -35,12 +36,13 @@ func (s *MySQLStorage) GetOriginalURL(shortCode string) (string, *errors.CustomE
 	return url, nil
 }
 
-func (s *MySQLStorage) GetShortURL(originalURL string) (string, *errors.CustomError) {
+func (s *MySQLStorage) GetShortCode(originalURL string) (string, *errors.CustomError) {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
 
 	for k, v := range s.urlMappings {
 		if v == originalURL {
+			fmt.Println("Short url already exists for", originalURL)
 			return k, nil
 		}
 	}
