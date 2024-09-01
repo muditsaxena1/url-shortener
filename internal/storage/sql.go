@@ -36,7 +36,7 @@ func (s *MySQLStorage) GetOriginalURL(shortCode string) (string, *errors.CustomE
 	return url, nil
 }
 
-func (s *MySQLStorage) GetShortURL(originalURL string) (string, *errors.CustomError) {
+func (s *MySQLStorage) GetShortCode(originalURL string) (string, *errors.CustomError) {
 	s.mu.RLock()
 	defer s.mu.RUnlock()
 

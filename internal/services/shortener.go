@@ -20,8 +20,8 @@ func NewShortenerService(cache storage.CacheStorage, db storage.DatabaseStorage)
 }
 
 func (s *ShortenerService) ShortenURL(originalURL string) (string, error) {
-	if shortURL, err := s.db.GetShortURL(originalURL); err == nil {
-		return shortURL, nil
+	if shortCode, err := s.db.GetShortCode(originalURL); err == nil {
+		return "http://localhost:8080/r/" + shortCode, nil
 	}
 
 	shortCode := utils.GenerateShortCode(originalURL)
