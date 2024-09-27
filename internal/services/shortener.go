@@ -51,9 +51,11 @@ func (s *ShortenerService) ResolveURL(shortCode string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	if err := s.cache.SaveURLMapping(shortCode, originalURL); err != nil {
-		fmt.Println("Error while saving data in cache", err.Message)
-	}
+	go func() {
+		if err := s.cache.SaveURLMapping(shortCode, originalURL); err != nil {
+			fmt.Println("Error while saving data in cache", err.Message)
+		}
+	}()
 	return originalURL, nil
 }
 
