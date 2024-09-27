@@ -16,6 +16,16 @@ type ShortenerService struct {
 	sf    *utils.Snowflake
 }
 
+/*
+*
+Creates a new instance of ShortenerService with the provided cache storage, database storage, and Snowflake generator.
+
+@param cache The cache storage to be used by the ShortenerService.
+@param db The database storage to be used by the ShortenerService.
+@param sf The Snowflake generator to be used by the ShortenerService.
+
+@return A pointer to the newly created ShortenerService instance.
+*/
 func NewShortenerService(cache storage.CacheStorage, db storage.DatabaseStorage, sf *utils.Snowflake) *ShortenerService {
 	return &ShortenerService{
 		cache: cache,
@@ -24,6 +34,13 @@ func NewShortenerService(cache storage.CacheStorage, db storage.DatabaseStorage,
 	}
 }
 
+/**
+ * ShortenURL takes an original URL, generates a short code for it, and saves the URL mapping if it doesn't already exist.
+ * It also increments the count for the domain of the original URL.
+ *
+ * @param originalURL The original URL to be shortened.
+ * @return The shortened URL or an error if the operation fails.
+ */
 func (s *ShortenerService) ShortenURL(originalURL string) (string, error) {
 	if shortCode, err := s.db.GetShortCode(originalURL); err == nil {
 		return os.Getenv("DOMAIN_NAME") + "/r/" + shortCode, nil
@@ -43,6 +60,16 @@ func (s *ShortenerService) ShortenURL(originalURL string) (string, error) {
 	return os.Getenv("DOMAIN_NAME") + "/r/" + shortCode, nil
 }
 
+/**
+ * ResolveURL resolves the original URL for a given short code.
+ *
+ * Parameters:
+ * - shortCode: the short code for which the original URL needs to be resolved
+ *
+ * Returns:
+ * - string: the original URL corresponding to the short code
+ * - error: an error, if any, encountered during the resolution process
+ */
 func (s *ShortenerService) ResolveURL(shortCode string) (string, error) {
 	if originalURL, err := s.cache.GetOriginalURL(shortCode); err == nil {
 		return originalURL, err
@@ -59,6 +86,13 @@ func (s *ShortenerService) ResolveURL(shortCode string) (string, error) {
 	return originalURL, nil
 }
 
+/**
+ * GetTopDomains returns the top three domains based on visit counts from the database.
+ * It iterates through the domain counts, identifies the domains with the highest visit counts,
+ * and returns them as a slice of models.Domain structs.
+ *
+ * @return []models.Domain - A slice containing the top three domains with the highest visit counts.
+ */
 func (s *ShortenerService) GetTopDomains() []models.Domain {
 	domainCounts := s.db.GetDomainCounts()
 
